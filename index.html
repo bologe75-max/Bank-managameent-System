@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>School Management System</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f4f4f4;
+}
+
+.container{
+    width:90%;
+    margin:30px auto;
+}
+
+h1{
+    text-align:center;
+    background:#0d6efd;
+    color:white;
+    padding:15px;
+    border-radius:10px;
+}
+
+.form{
+    background:white;
+    padding:20px;
+    margin-top:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px gray;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+}
+
+button{
+    padding:10px 20px;
+    margin:5px;
+    border:none;
+    color:white;
+    cursor:pointer;
+    border-radius:5px;
+}
+
+.add{background:green;}
+.search{background:blue;}
+.update{background:orange;}
+.delete{background:red;}
+.clear{background:gray;}
+
+table{
+    width:100%;
+    margin-top:20px;
+    border-collapse:collapse;
+    background:white;
+}
+
+table,th,td{
+    border:1px solid black;
+}
+
+th{
+    background:#0d6efd;
+    color:white;
+    padding:10px;
+}
+
+td{
+    text-align:center;
+    padding:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>School Management System</h1>
+
+<div class="form">
+
+<input type="text" id="id" placeholder="Student ID">
+<input type="text" id="name" placeholder="Student Name">
+<input type="number" id="age" placeholder="Age">
+<input type="text" id="grade" placeholder="Grade">
+
+<button class="add" onclick="addStudent()">Add</button>
+<button class="search" onclick="searchStudent()">Search</button>
+<button class="update" onclick="updateStudent()">Update</button>
+<button class="delete" onclick="deleteStudent()">Delete</button>
+<button class="clear" onclick="clearFields()">Clear</button>
+
+</div>
+
+<table>
+
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Age</th>
+<th>Grade</th>
+</tr>
+</thead>
+
+<tbody id="tableBody">
+
+</tbody>
+
+</table>
+
+</div>
+
+<script>
+
+let students=[];
+
+function addStudent(){
+
+let id=document.getElementById("id").value;
+let name=document.getElementById("name").value;
+let age=document.getElementById("age").value;
+let grade=document.getElementById("grade").value;
+
+if(id==""||name==""||age==""||grade==""){
+alert("Please Fill All Fields");
+return;
+}
+
+students.push({id,name,age,grade});
+
+displayStudents();
+
+clearFields();
+
+}
+
+function displayStudents(){
+
+let body=document.getElementById("tableBody");
+
+body.innerHTML="";
+
+students.forEach(student=>{
+
+body.innerHTML+=`
+<tr>
+<td>${student.id}</td>
+<td>${student.name}</td>
+<td>${student.age}</td>
+<td>${student.grade}</td>
+</tr>
+`;
+
+});
+
+}
+
+function searchStudent(){
+
+let id=document.getElementById("id").value;
+
+let student=students.find(s=>s.id===id);
+
+if(student){
+
+document.getElementById("name").value=student.name;
+document.getElementById("age").value=student.age;
+document.getElementById("grade").value=student.grade;
+
+}
+else{
+
+alert("Student Not Found");
+
+}
+
+}
+
+function updateStudent(){
+
+let id=document.getElementById("id").value;
+
+let student=students.find(s=>s.id===id);
+
+if(student){
+
+student.name=document.getElementById("name").value;
+student.age=document.getElementById("age").value;
+student.grade=document.getElementById("grade").value;
+
+displayStudents();
+
+alert("Student Updated");
+
+}
+else{
+
+alert("Student Not Found");
+
+}
+
+}
+
+function deleteStudent(){
+
+let id=document.getElementById("id").value;
+
+students=students.filter(s=>s.id!==id);
+
+displayStudents();
+
+clearFields();
+
+alert("Student Deleted");
+
+}
+
+function clearFields(){
+
+document.getElementById("id").value="";
+document.getElementById("name").value="";
+document.getElementById("age").value="";
+document.getElementById("grade").value="";
+
+}
+
+</script>
+
+</body>
+</html>
